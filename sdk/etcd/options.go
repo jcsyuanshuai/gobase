@@ -25,3 +25,21 @@ func DefaultOptions() Options {
 		Password: "",
 	}
 }
+
+func SetEndpoint(endpoint string) Option {
+	return func(options *Options) {
+		options.Endpoint = endpoint
+	}
+}
+
+func SetUsername(username string) Option {
+	return func(options *Options) {
+		options.Username = username
+	}
+}
+
+func SetPassword(password string) Option {
+	return func(options *Options) {
+		options.Password = password
+	}
+}

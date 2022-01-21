@@ -1,6 +1,4 @@
-package local
-
-import "encoding/json"
+package config
 
 type App struct {
 	BasePath  string
@@ -12,9 +10,4 @@ type App struct {
 	Ip        string
 	HttpPort  int
 	GrpcPort  int
-}
-
-func (a *App) String() string {
-	ret, _ := json.Marshal(a)
-	return string(ret)
 }

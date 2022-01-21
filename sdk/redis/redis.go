@@ -8,6 +8,10 @@ import (
 
 var poolMap sync.Map
 
+type Redis struct {
+	opts Options
+}
+
 func Load(ctx context.Context, name string) (*redis.Client, error) {
 	if cli, ok := poolMap.Load(name); ok {
 		if db, ok := cli.(*redis.Client); ok {

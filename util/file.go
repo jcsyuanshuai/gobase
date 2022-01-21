@@ -27,3 +27,7 @@ func JsonLoad(path string, source interface{}) error {
 func FileExist(path string) bool {
 	return false
 }
+
+func CurrentAbsPath() string {
+	return ""
+}

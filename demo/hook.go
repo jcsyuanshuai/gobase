@@ -29,7 +29,7 @@ func InitRedisEngine(ctx context.Context) {
 		if err != nil {
 			return
 		}
-		cli.Watch(ctx, item, func(item *conf.Item) {
+		cli.Watch(ctx, item, func(item *config.Item) {
 			err = mongo.Init(ctx, item.Key, item.GetValue())
 			if err != nil {
 				return
