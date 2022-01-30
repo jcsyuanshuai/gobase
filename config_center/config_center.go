@@ -2,23 +2,25 @@ package config_center
 
 import (
 	"context"
+	"github.com/xx/gobase/config"
 )
 
 const DefaultConfigCenterType = "etcd"
 
 var clientMap map[string]Client
 
-func RegistryClient(name string, client Client) {
-	clientMap[name] = client
-}
-
 var defaultClient Client
 
-func Init(name string) {
-	if name != "" {
-		defaultClient = clientMap[name]
+func Init() {
+	configType := config.GlobalConfig.ConfigCenter.Type
+
+	if configType == "etcd" {
+		defaultClient = clientMap[configType]
 	}
-	defaultClient = clientMap[DefaultConfigCenterType]
+}
+
+func SetClient(name string, cli Client) {
+	clientMap[name] = cli
 }
 
 func Close() error {

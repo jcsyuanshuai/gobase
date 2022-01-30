@@ -40,7 +40,7 @@ func checkAndLoad(env *env.Env, config *Config) {
 		out  interface{}
 	}{
 		{
-			path: fmt.Sprintf("%s/%s/%s", env.ConfPath, env.Mode, "gobase.yaml"),
+			path: fmt.Sprintf("%s/%s/%s", env.ConfPath, env.Mode, "app.yaml"),
 			out:  &config.App,
 		},
 		{

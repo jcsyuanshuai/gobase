@@ -1,4 +1,4 @@
-package gobase
+package app
 
 import (
 	"github.com/xx/gobase/util"
@@ -9,18 +9,20 @@ import (
 
 type Runnable interface {
 	Start() error
-	Init(...Option) error
-	Options() Options
+	Init(...OptionFunc) error
+	Option() Option
 	Run() error
 	Stop() error
 }
 
 type app struct {
-	opts Options
+	opts Option
 	once sync.Once
 }
 
-func NewApp(opts ...Option) *app {
+var defaultApp *app
+
+func NewApp(opts ...OptionFunc) *app {
 	app := new(app)
 	if len(opts) == 0 {
 		app.opts = DefaultOptions()
@@ -30,7 +32,31 @@ func NewApp(opts ...Option) *app {
 	return app
 }
 
-func (a *app) Options() Options {
+func Start() error {
+	return defaultApp.Start()
+}
+
+func Default(opts ...OptionFunc) {
+	defaultApp = NewApp(opts...)
+}
+
+func Init(opts ...OptionFunc) error {
+	err := defaultApp.Init(opts...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetOption() Option {
+	return defaultApp.Option()
+}
+
+func Stop() error {
+	return defaultApp.Stop()
+}
+
+func (a *app) Option() Option {
 	return a.opts
 }
 
@@ -53,7 +79,7 @@ func (a *app) Start() error {
 	return nil
 }
 
-func (a *app) Init(opts ...Option) error {
+func (a *app) Init(opts ...OptionFunc) error {
 	for _, o := range opts {
 		o(&a.opts)
 	}
@@ -94,7 +120,7 @@ func (a *app) Run() error {
 
 var _ Runnable = &app{}
 
-func startHttpEngine(opts Options) error {
+func startHttpEngine(opts Option) error {
 	go func() {
 		err := opts.Engine.Run(":8080")
 		if err != nil {
@@ -105,6 +131,6 @@ func startHttpEngine(opts Options) error {
 	return nil
 }
 
-func stopHttpEngine(opts Options) error {
+func stopHttpEngine(opts Option) error {
 	return nil
 }

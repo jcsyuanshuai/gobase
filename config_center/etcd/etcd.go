@@ -36,3 +36,7 @@ func New(opts ...Option) *etcd {
 	}
 	return etcd
 }
+
+func init() {
+	config_center.SetClient("etcd", New())
+}

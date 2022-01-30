@@ -1,17 +1,16 @@
-package gobase
+package app
 
 import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/xx/gobase/config"
 	"gorm.io/gorm"
 )
 
-type Options struct {
+type Option struct {
 	Engine *gin.Engine
-	Config *config.Config
-	DB     *gorm.DB
+	//Config *config.Config
+	DB *gorm.DB
 
 	ErrorCh chan error
 	// Before and After Functions
@@ -26,10 +25,10 @@ type Options struct {
 	Signal bool
 }
 
-type Option func(options *Options)
+type OptionFunc func(options *Option)
 
-func newOptions(opts ...Option) Options {
-	opt := Options{
+func newOptions(opts ...OptionFunc) Option {
+	opt := Option{
 		Engine:  gin.New(),
 		Context: context.Background(),
 	}
@@ -39,7 +38,7 @@ func newOptions(opts ...Option) Options {
 	return opt
 }
 
-func DefaultOptions() Options {
+func DefaultOptions() Option {
 	opt := newOptions(
 		// hooks
 		InitConfig,
@@ -74,29 +73,29 @@ func DefaultOptions() Options {
 }
 
 // BeforeStart Run functions before services start
-func BeforeStart(fn func() error) Option {
-	return func(o *Options) {
+func BeforeStart(fn func() error) OptionFunc {
+	return func(o *Option) {
 		o.BeforeStart = append(o.BeforeStart, fn)
 	}
 }
 
 // AfterStart Run functions after services start
-func AfterStart(fn func() error) Option {
-	return func(o *Options) {
+func AfterStart(fn func() error) OptionFunc {
+	return func(o *Option) {
 		o.AfterStart = append(o.AfterStart, fn)
 	}
 }
 
 // BeforeStop Run functions before services stop
-func BeforeStop(fn func() error) Option {
-	return func(o *Options) {
+func BeforeStop(fn func() error) OptionFunc {
+	return func(o *Option) {
 		o.BeforeStop = append(o.BeforeStop, fn)
 	}
 }
 
 // AfterStop Run functions after services stop
-func AfterStop(fn func() error) Option {
-	return func(o *Options) {
+func AfterStop(fn func() error) OptionFunc {
+	return func(o *Option) {
 		o.AfterStop = append(o.AfterStop, fn)
 	}
 }
