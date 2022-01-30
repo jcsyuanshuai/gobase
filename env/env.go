@@ -2,6 +2,7 @@ package env
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/xx/gobase/util"
 )
 
@@ -12,7 +13,7 @@ type Env struct {
 }
 
 var defaultEnv *Env = &Env{
-	Mode:     "dev",
+	Mode:     "prod",
 	BasePath: util.CurrentAbsPath(),
 	ConfPath: fmt.Sprintf("%s/%s/%s", util.CurrentAbsPath(), "conf", "dev"),
 }
@@ -24,9 +25,11 @@ func DefaultEnv() *Env {
 func LoadEnv(env *Env) {
 	env = defaultEnv
 
-	if util.FileExist(
-		fmt.Sprintf("%s/.env", env.BasePath)) {
-		//todo
+	if envPath := fmt.Sprintf("%s/.env", env.BasePath); util.FileExist(envPath) {
+		err := godotenv.Load(envPath)
+		if err != nil {
+			fmt.Printf("cat't find .env file in path: %s", envPath)
+		}
 	}
 
 	mode := util.GetEnv("MODE")

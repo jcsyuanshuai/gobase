@@ -2,3 +2,5 @@
 app.yaml
 .env
 conf
+
+vendor/

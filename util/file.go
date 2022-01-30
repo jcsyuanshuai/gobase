@@ -29,5 +29,9 @@ func FileExist(path string) bool {
 }
 
 func CurrentAbsPath() string {
-	return ""
+	path, err := os.Getwd()
+	if err != nil {
+		return ""
+	}
+	return path
 }

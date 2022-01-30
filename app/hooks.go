@@ -11,7 +11,7 @@ func InitConfig(opt *Option) {
 	fmt.Printf("%v\n", config.GlobalConfig)
 
 	//config_center.Init()
-	//
+	////
 	//registry.Init()
 }
 
