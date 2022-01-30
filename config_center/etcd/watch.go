@@ -2,10 +2,10 @@ package etcd
 
 import (
 	"context"
-	"github.com/xx/gobase/config"
+	"github.com/xx/gobase/config_center"
 )
 
-func (e *etcd) Watch(ctx context.Context, item *config.Item, callback func(item *config.Item)) {
+func (e *etcd) Watch(ctx context.Context, item *config_center.Item, callback func(item *config_center.Item)) {
 	if callback == nil {
 		return
 	}

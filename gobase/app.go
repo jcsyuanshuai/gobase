@@ -1,4 +1,4 @@
-package app
+package gobase
 
 import (
 	"github.com/xx/gobase/util"

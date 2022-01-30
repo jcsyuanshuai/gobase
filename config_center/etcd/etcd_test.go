@@ -3,7 +3,7 @@ package etcd
 import (
 	"context"
 	"fmt"
-	"github.com/xx/gobase/conf"
+	"github.com/xx/gobase/config_center"
 	"testing"
 	"time"
 )
@@ -44,7 +44,7 @@ func TestWatch(t *testing.T) {
 	if err != nil {
 		return
 	}
-	cli.Watch(ctx, item, func(item *config.Item) {
+	cli.Watch(ctx, item, func(item *config_center.Item) {
 		fmt.Println(item.GetValue() == "test-val-9")
 	})
 
